@@ -1,0 +1,33 @@
+version: 1
+applications:
+  - appRoot: .
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci
+            - npm run db:generate
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: build/client
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+    test:
+      phases:
+        preTest:
+          commands:
+            - npm ci
+        test:
+          commands:
+            - npm run typecheck
+            - npm run lint
+            - npm run test
+      artifacts:
+        baseDirectory: .
+        files:
+          - '**/*'
