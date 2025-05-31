@@ -65,4 +65,13 @@ jobs:
 
       - name: Deploy to Amplify
         run: |
-          aws amplify start-job --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --job-type RELEASE
+          # Check if there's already a running job
+          RUNNING_JOBS=$(aws amplify list-jobs --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --max-results 1 --query 'jobSummaries[?status==`PENDING` || status==`RUNNING`].jobId' --output text)
+          
+          if [ -n "$RUNNING_JOBS" ]; then
+            echo "Job already running: $RUNNING_JOBS"
+            echo "Skipping deployment to avoid conflict"
+          else
+            echo "Starting new deployment job"
+            aws amplify start-job --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --job-type RELEASE
+          fi
