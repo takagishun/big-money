@@ -1,4 +1,4 @@
-import { Amplify } from 'aws-amplify';
+import { Amplify } from "aws-amplify"
 
 const amplifyConfig = {
   Auth: {
@@ -6,11 +6,11 @@ const amplifyConfig = {
       region: import.meta.env.VITE_AWS_REGION,
       userPoolId: import.meta.env.VITE_AWS_USER_POOL_ID,
       userPoolClientId: import.meta.env.VITE_AWS_USER_POOL_WEB_CLIENT_ID,
-      signUpVerificationMethod: 'code' as const,
+      signUpVerificationMethod: "code" as const,
     },
   },
-};
+}
 
-Amplify.configure(amplifyConfig);
+Amplify.configure(amplifyConfig)
 
-export default amplifyConfig;
+export default amplifyConfig
